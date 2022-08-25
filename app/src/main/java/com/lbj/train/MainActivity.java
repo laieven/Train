@@ -7,100 +7,63 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.lbj.train.adapters.MyAdapter;
 import com.lbj.train.beans.Time;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    RecyclerView mRecyclerView;
-    MyAdapter mMyAdapter ;
 
-    List<Time> mTimeList = new ArrayList<>();
-
+    private ListView mListView;
+    private List<Time> timeList = new ArrayList<Time>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mRecyclerView = findViewById(R.id.recyclerView);
-        // 网络中获取数据
-        for (int i = 0; i < 50; i++) {
-            Time time = new Time();
-            time.setMinute("小时" + i);
-            time.setHour("分钟" + i);
-            mTimeList.add(time);
-        }
+        //绑定控件
+        initView();
+        //准备数据
+        initData();
+        //创建适配器，作为连接数据源和控件的桥梁
+        MyAdapter myAdapter = new MyAdapter(this,R.layout.date_item, timeList);
 
-        //设置适配器
-        mMyAdapter = new MyAdapter();
-        mRecyclerView.setAdapter(mMyAdapter);
+        mListView.setAdapter(myAdapter);
 
-        //使用线性管理器进行管理
-        LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
-        mRecyclerView.setLayoutManager(layoutManager);
+        //设置点击事件
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Time time = timeList.get(position);
+                Intent intent = new Intent(MainActivity.this, DateShowActivity.class);
+//                intent.putExtra("hour", hour);
+//                intent.putExtra("minutes", minutes);
+                startActivity(intent);
+            }
+        });
 
-        //加上水平线
-        DividerItemDecoration mDivider = new
-                DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
-        mRecyclerView.addItemDecoration(mDivider);
-        initListener();
     }
-
-    //设置监听器
-    private void initListener() {
-    }
-
 
     /**
-     * 适配器
+     * 从网络中获取
      */
-    class MyAdapter extends RecyclerView.Adapter<MyViewHoder> {
-
-        private AdapterView.OnItemClickListener mOnItemClickListener;
-
-        @NonNull
-        @Override
-        public MyViewHoder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = View.inflate(MainActivity.this, R.layout.item_list, null);
-            MyViewHoder myViewHoder = new MyViewHoder(view);
-            return myViewHoder;
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull MyViewHoder holder, int position) {
-            Time times = mTimeList.get(position);
-//            News news = mNewsList.get(position);
-            holder.mTitleTv.setText(times.getHour());
-            holder.mTitleContent.setText(times.getMinute());
-        }
-
-        @Override
-        public int getItemCount() {
-            return mTimeList.size();
-        }
-
-        public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
-            //设置一个监听,其实,就是要设置一个接口,一个回调的接口
-            this.mOnItemClickListener = listener;
+    private void initData() {
+        for(int i = 0; i < 10; i++){
+            timeList.add(new Time(i + "时",  i + "分钟"));
         }
     }
 
-    class MyViewHoder extends RecyclerView.ViewHolder {
-        TextView mTitleTv;
-        TextView mTitleContent;
-
-        public MyViewHoder(@NonNull View itemView) {
-            super(itemView);
-            mTitleTv = itemView.findViewById(R.id.textView);
-            mTitleContent = itemView.findViewById(R.id.textView2);
-        }
+    private void initView() {
+        mListView = this.findViewById(R.id.list_view);
     }
-
 }

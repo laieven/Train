@@ -11,6 +11,10 @@ public class Time {
     public Time() {
     }
 
+    public Time(String minute) {
+        this.minute = minute;
+    }
+
     public Time(String hour, String minute) {
         this.hour = hour;
         this.minute = minute;
