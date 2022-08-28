@@ -1,69 +1,105 @@
 package com.lbj.train;
 
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.os.IBinder;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 
 import com.lbj.train.adapters.MyAdapter;
-import com.lbj.train.beans.Time;
+import com.lbj.train.interfaces.OnRecyclerViewItemClickListener;
+import com.lbj.train.model.TimeModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ListView mListView;
-    private List<Time> timeList = new ArrayList<Time>();
+
+    private RecyclerView mRecyclerView;
+    private OnClickListener mOnTimeItemClickListener;
+    private MyAdapter mMyAdapter;
+    private TimeServiceConnection mTimeServiceConnection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //绑定控件
+
         initView();
-        //准备数据
-        initData();
-        //创建适配器，作为连接数据源和控件的桥梁
-        MyAdapter myAdapter = new MyAdapter(this,R.layout.date_item, timeList);
 
-        mListView.setAdapter(myAdapter);
-
-        //设置点击事件
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Time time = timeList.get(position);
-                Intent intent = new Intent(MainActivity.this, DateShowActivity.class);
-//                intent.putExtra("hour", hour);
-//                intent.putExtra("minutes", minutes);
-                startActivity(intent);
-            }
-        });
-
+        //service绑定
+        mTimeServiceConnection = new TimeServiceConnection();
+        Intent intent = new Intent(MainActivity.this, TimeShowActivity.class);
+        bindService(intent, mTimeServiceConnection, BIND_AUTO_CREATE);
     }
 
-    /**
-     * 从网络中获取
-     */
-    private void initData() {
-        for(int i = 0; i < 10; i++){
-            timeList.add(new Time(i + "时",  i + "分钟"));
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mMyAdapter.removeOnRecyclerViewItemClickListener();
+        unbindService(mTimeServiceConnection);
+        mTimeServiceConnection = null;
+    }
+
+    //1. 找控件，recyclerView
+    //2. 设置adapter
+    //3. 设置相关动画
+    private void initView() {
+        //找控件
+        mRecyclerView = this.findViewById(R.id.recycler_view);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MainActivity.this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+
+
+        //设置adapter
+        List<TimeModel> timeModels = null;
+        mMyAdapter = new MyAdapter(timeModels);
+        mOnTimeItemClickListener = new OnClickListener();
+        mMyAdapter.setOnRecyclerViewItemClickListener(mOnTimeItemClickListener);
+        mRecyclerView.setAdapter(mMyAdapter);
+
+
+
+
+        //设置动画
+        Animation animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.alpha_anim);
+        LayoutAnimationController layoutAnimationController = new LayoutAnimationController(animation);
+        layoutAnimationController.setOrder(layoutAnimationController.ORDER_NORMAL);
+        layoutAnimationController.setDelay(0.3f);
+        mRecyclerView.setLayoutAnimation(layoutAnimationController);
+    }
+
+    //因为需要进行在后台运行，因此需要一个serviceConnection进行连接
+    class TimeServiceConnection implements ServiceConnection{
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
         }
     }
 
-    private void initView() {
-        mListView = this.findViewById(R.id.list_view);
+
+    class OnClickListener implements OnRecyclerViewItemClickListener{
+
+        @Override
+        public void onItemClick(int position) {
+            Intent intent = new Intent(MainActivity.this, TimeShowActivity.class);
+            intent.putExtra("key", position);
+            startActivity(intent);
+        }
     }
 }

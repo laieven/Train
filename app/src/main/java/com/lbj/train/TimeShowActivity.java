@@ -5,10 +5,10 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
-public class DateShowActivity extends Activity {
+public class TimeShowActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        setContentView(R.layout.activity_date);
+        setContentView(R.layout.activity_show);
         super.onCreate(savedInstanceState);
     }
 }
