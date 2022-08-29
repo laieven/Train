@@ -12,19 +12,19 @@ import androidx.annotation.Nullable;
 import com.lbj.train.constants.MyConstants;
 import com.lbj.train.model.TimeModel;
 import com.lbj.train.utils.CacheUtil;
+import com.lbj.train.utils.NetWorkUtil;
 
 import java.util.List;
 
-public class TImeService extends Service {
+public class TimeService extends Service {
 
-
-    private CacheUtil mCache;
+    private Handler mUiHandler;
+    private CacheUtil mCache = CacheUtil.getCache(this);;
 
     @Override
     public void onCreate() {
         super.onCreate();
         //此时需要先获取一下缓存的
-        mCache = CacheUtil.getCache(this);
         handleData();
     }
 
@@ -41,22 +41,29 @@ public class TImeService extends Service {
                 if (timeModels.size() == 0){
                     return;
                 }
-                sendTimeChange();
+                //查到了缓存有消息，那么进行发送
+                sendTimeChange(MyConstants.TIME_FROM_CACHE);
             }
-        }).start();
+        }, "Cache").start();
 
         //从网络中获取
-
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                NetWorkUtil
+            }
+        }, "Net").start();
 
     }
 
 
     //看是否改变了消息，不管是缓存还是网络，只要有数据通知过来都要发送消息
-    //因为主线程没有办法完成
-    private void sendTimeChange(){
-        Message message = Message.obtain();
-        message.arg1();
-        message.what = MyConstants.MSG_TIME_CHANGE;//
+    //因为主线程没有办法完成耗时任务，只能交给子线程去完成
+    private void sendTimeChange(int type){
+        Message message = mUiHandler.obtainMessage();
+        message.arg1 = type;
+        message.what = MyConstants.MSG_TIME_CHANGE;//识别子线程发来的是什么消息
+        mUiHandler.sendMessage(message);//发送消息
     }
 
     @Nullable
@@ -72,7 +79,7 @@ public class TImeService extends Service {
 
     class InnerBinder extends Binder{
         public void setUiHandler(Handler uiHandler){
-
+            mUiHandler = uiHandler;
         }
     }
 }
