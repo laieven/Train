@@ -36,7 +36,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         //取出当前这个model
         TimeModel timeModel = mModelList.get(position);
 
-        holder.timeCurrent.setText(timeModel.getCurrentTime());
+        holder.timeCurrent.setText(timeModel.getName());
         holder.timeHour.setText(timeModel.getHour());
         holder.timeMinutes.setText(timeModel.getMinute());
     }

@@ -2,22 +2,22 @@ package com.lbj.train.model;
 
 //时间数据模型，因为需要去进行从大到小的排序，所以要实现comparable接口
 public class TimeModel implements Comparable<TimeModel>{
-    private String currentTime;
+    private String name;
     private Integer hour;
     private Integer minute;
 
-    public TimeModel(String currentTime, Integer hour, Integer minute) {
-        this.currentTime = currentTime;
+    public TimeModel(String name, Integer hour, Integer minute) {
+        this.name = name;
         this.hour = hour;
         this.minute = minute;
     }
 
-    public String getCurrentTime() {
-        return currentTime;
+    public String getName() {
+        return name;
     }
 
-    public void setCurrentTime(String currentTime) {
-        this.currentTime = currentTime;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Integer getHour() {
@@ -39,7 +39,7 @@ public class TimeModel implements Comparable<TimeModel>{
     @Override
     public String toString() {
         return "TimeModel{" +
-                "currentTime='" + currentTime + '\'' +
+                "name='" + name + '\'' +
                 ", hour=" + hour +
                 ", minute=" + minute +
                 '}';

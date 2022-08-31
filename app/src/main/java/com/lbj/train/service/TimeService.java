@@ -9,8 +9,10 @@ import android.os.Message;
 
 import androidx.annotation.Nullable;
 
+import com.lbj.train.beans.Time;
 import com.lbj.train.constants.MyConstants;
 import com.lbj.train.model.TimeModel;
+import com.lbj.train.provider.TimeProvider;
 import com.lbj.train.utils.CacheUtil;
 import com.lbj.train.utils.NetWorkUtil;
 
@@ -19,7 +21,7 @@ import java.util.List;
 public class TimeService extends Service {
 
     private Handler mUiHandler;
-    private CacheUtil mCache = CacheUtil.getCache(this);;
+    private CacheUtil mCache = CacheUtil.getCache(this);
 
     @Override
     public void onCreate() {
@@ -41,6 +43,7 @@ public class TimeService extends Service {
                 if (timeModels.size() == 0){
                     return;
                 }
+                TimeProvider.getInstance().setTimeModelList(timeModels);
                 //查到了缓存有消息，那么进行发送
                 sendTimeChange(MyConstants.TIME_FROM_CACHE);
             }
@@ -50,7 +53,14 @@ public class TimeService extends Service {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                NetWorkUtil
+                List<TimeModel> allTime = NetWorkUtil.getNetWorkUtil().getAllTime();
+                if (allTime == null || allTime.size() == 0){
+                    return;
+                }
+                TimeProvider.getInstance().setTimeModelList(allTime);
+                sendTimeChange(MyConstants.TIME_FROM_NET);
+                //同时将数据进行缓存
+                mCache.write(allTime);
             }
         }, "Net").start();
 
@@ -77,6 +87,7 @@ public class TimeService extends Service {
         return super.onUnbind(intent);
     }
 
+    //Binder的主要作用就是去设置UI
     class InnerBinder extends Binder{
         public void setUiHandler(Handler uiHandler){
             mUiHandler = uiHandler;
