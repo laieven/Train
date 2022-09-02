@@ -88,7 +88,7 @@ public class TimeService extends Service {
     }
 
     //Binder的主要作用就是去设置UI
-    class InnerBinder extends Binder{
+    public class InnerBinder extends Binder{
         public void setUiHandler(Handler uiHandler){
             mUiHandler = uiHandler;
         }
