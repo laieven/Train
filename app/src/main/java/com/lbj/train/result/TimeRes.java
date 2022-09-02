@@ -5,27 +5,26 @@ import com.lbj.train.model.TimeModel;
 import java.util.List;
 
 public class TimeRes {
-    private Integer resCode;
+    private Integer code;
     private String message;
-    private List<TimeModel> time;
+    private List<TimeModel> data;
 
     public TimeRes() {
     }
 
-
-    public TimeRes(Integer resCode, String message, List<TimeModel> time) {
-        this.resCode = resCode;
+    public TimeRes(Integer code, String message, List<TimeModel> time) {
+        this.code = code;
         this.message = message;
-        this.time = time;
+        this.data = time;
     }
 
 
-    public Integer getResCode() {
-        return resCode;
+    public Integer getCode() {
+        return code;
     }
 
-    public void setResCode(Integer resCode) {
-        this.resCode = resCode;
+    public void setCode(Integer code) {
+        this.code = code;
     }
 
     public String getMessage() {
@@ -36,20 +35,13 @@ public class TimeRes {
         this.message = message;
     }
 
-    public List<TimeModel> getTime() {
-        return time;
+    public List<TimeModel> getData() {
+        return data;
     }
 
-    public void setTime(List<TimeModel> time) {
-        this.time = time;
+    public void setData(List<TimeModel> data) {
+        this.data = data;
     }
 
-    @Override
-    public String toString() {
-        return "TimeRes{" +
-                "resCode=" + resCode +
-                ", message='" + message + '\'' +
-                ", time=" + time +
-                '}';
-    }
+
 }

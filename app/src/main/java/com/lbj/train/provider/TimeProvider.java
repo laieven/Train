@@ -1,12 +1,15 @@
 package com.lbj.train.provider;
 
-import com.lbj.train.beans.Time;
+
 import com.lbj.train.model.TimeModel;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
+/**
+ * 作用是获取当前某一行的数据，或者所有数据
+ */
 public class TimeProvider {
 
     private static TimeProvider mInstance;

@@ -28,7 +28,7 @@ public class NetWorkUtil {
         url = MyConstants.RANDOM_TIME_URL;
     }
 
-    public synchronized static NetWorkUtil getNetWorkUtil(){
+    public synchronized static NetWorkUtil getNet(){
         if (netWorkUtil == null){
             netWorkUtil = new NetWorkUtil();
         }
@@ -52,15 +52,17 @@ public class NetWorkUtil {
         }
 
         //得到响应体
-        TimeRes resList = new Gson().fromJson(responseStr, (Type) TimeModel.class);
+        TimeRes resList = new Gson().fromJson(responseStr, (Type) TimeRes.class);
 
-        if (resList.getResCode() != 200){
+
+
+        if (resList.getCode() != 200){
             //没有获取到数据
             return timeModelsRes;
         }
 
         //此时需要将获得的所有数据添加到结果中
-        timeModelsRes.addAll(resList.getTime());
+        timeModelsRes.addAll(resList.getData());
         return timeModelsRes;
     }
 }

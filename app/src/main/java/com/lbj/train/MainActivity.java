@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
@@ -30,6 +31,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
 
+    private static final String TAG = "MainActivity";
     private RecyclerView mRecyclerView;
     private OnClickListener mOnTimeItemClickListener;
     private MyAdapter mMyAdapter;
@@ -39,19 +41,25 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i(TAG, "onCreate: ");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         initView();
 
-        //service绑定
+        // 对服务进行绑定
+        handleBind();
+    }
+
+    private void handleBind() {
         mTimeServiceConnection = new TimeServiceConnection();
-        Intent intent = new Intent(MainActivity.this, TimeShowActivity.class);
+        Intent intent = new Intent(this, TimeService.class);
         bindService(intent, mTimeServiceConnection, BIND_AUTO_CREATE);
     }
 
     @Override
     protected void onDestroy() {
+        Log.i(TAG, "onDestroy: ");
         super.onDestroy();
         mMyAdapter.removeOnRecyclerViewItemClickListener();
         unbindService(mTimeServiceConnection);
@@ -62,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
     //2. 设置adapter
     //3. 设置相关动画
     private void initView() {
+        Log.i(TAG, "initView: ");
         //找控件
         mRecyclerView = this.findViewById(R.id.recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MainActivity.this);
@@ -90,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
         mUiHandler = new Handler(Looper.myLooper()){
             @Override
             public void handleMessage(@NonNull Message msg) {
+                Log.i(TAG, "handleMessage: ");
                 super.handleMessage(msg);
                 //判断消息的来源
                 if (msg.what == MyConstants.TIME_FROM_CACHE){
@@ -101,8 +111,13 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(MainActivity.this, "数据已经更新", Toast.LENGTH_SHORT).show();
                 }
+                mMyAdapter.notifyDataSetChanged();
             }
         };
+    }
+
+    private void setUiHandler(){
+        myBinder.setUiHandler(mUiHandler);
     }
 
     //因为需要进行在后台运行，因此需要一个serviceConnection进行连接
@@ -110,8 +125,9 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
+            Log.i(TAG, "onServiceConnected: ");
             myBinder = (TimeService.InnerBinder) service;
-            myBinder.setUiHandler(mUiHandler);
+            setUiHandler();
         }
 
         @Override
@@ -121,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    class OnClickListener implements OnRecyclerViewItemClickListener{
+    public class OnClickListener implements OnRecyclerViewItemClickListener{
 
         @Override
         public void onItemClick(int position) {

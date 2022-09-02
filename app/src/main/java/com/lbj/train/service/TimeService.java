@@ -6,10 +6,10 @@ import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import com.lbj.train.beans.Time;
 import com.lbj.train.constants.MyConstants;
 import com.lbj.train.model.TimeModel;
 import com.lbj.train.provider.TimeProvider;
@@ -20,23 +20,32 @@ import java.util.List;
 
 public class TimeService extends Service {
 
+    private static final String TAG = "TimeService";
     private Handler mUiHandler;
-    private CacheUtil mCache = CacheUtil.getCache(this);
+    private CacheUtil mCache;
 
     @Override
     public void onCreate() {
+        Log.i(TAG, "service onCreate: ");
         super.onCreate();
+        mCache = CacheUtil.getCache(this);
         //此时需要先获取一下缓存的
-        handleData();
+        getData();
     }
 
     //分别从缓存和网络中获取数据
-    private void handleData() {
+    private void getData() {
+
 
         //从缓存中获取
         new Thread(new Runnable() {
             @Override
             public void run() {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 //                读取处缓存的内容
                 List<TimeModel> timeModels = mCache.read();
                 //判断缓存是否有内容
@@ -53,7 +62,12 @@ public class TimeService extends Service {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                List<TimeModel> allTime = NetWorkUtil.getNetWorkUtil().getAllTime();
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                List<TimeModel> allTime = NetWorkUtil.getNet().getAllTime();
                 if (allTime == null || allTime.size() == 0){
                     return;
                 }
@@ -71,8 +85,8 @@ public class TimeService extends Service {
     //因为主线程没有办法完成耗时任务，只能交给子线程去完成
     private void sendTimeChange(int type){
         Message message = mUiHandler.obtainMessage();
-        message.arg1 = type;
-        message.what = MyConstants.MSG_TIME_CHANGE;//识别子线程发来的是什么消息
+        message.arg1 = MyConstants.MSG_TIME_CHANGE;
+        message.what = type;//识别子线程发来的是什么消息
         mUiHandler.sendMessage(message);//发送消息
     }
 

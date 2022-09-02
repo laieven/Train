@@ -14,6 +14,9 @@ import androidx.annotation.Nullable;
 import com.lbj.train.model.TimeModel;
 import com.lbj.train.provider.TimeProvider;
 
+/**
+ * 显示具体时间的
+ */
 public class TimeShowActivity extends Activity {
 
     private ImageView mHourShow;
@@ -79,7 +82,7 @@ public class TimeShowActivity extends Activity {
     }
 
 
-    //相关动画
+    //差值器
     private final BaseInterpolator baseInterpolator = new BaseInterpolator() {
         @Override
         public float getInterpolation(float input) {

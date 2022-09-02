@@ -1,15 +1,21 @@
 package com.lbj.train.model;
 
-//时间数据模型，因为需要去进行从大到小的排序，所以要实现comparable接口
+import java.util.Objects;
+
+/**
+ * 根据返回示例设置当前模型的名称
+ * 因为需要去进行从大到小的排序，所以要实现comparable接口
+ *
+ */
 public class TimeModel implements Comparable<TimeModel>{
     private String name;
     private Integer hour;
-    private Integer minute;
+    private Integer min;
 
     public TimeModel(String name, Integer hour, Integer minute) {
         this.name = name;
         this.hour = hour;
-        this.minute = minute;
+        this.min = minute;
     }
 
     public String getName() {
@@ -29,11 +35,11 @@ public class TimeModel implements Comparable<TimeModel>{
     }
 
     public Integer getMinute() {
-        return minute;
+        return min;
     }
 
     public void setMinute(Integer minute) {
-        this.minute = minute;
+        this.min = minute;
     }
 
     @Override
@@ -41,7 +47,7 @@ public class TimeModel implements Comparable<TimeModel>{
         return "TimeModel{" +
                 "name='" + name + '\'' +
                 ", hour=" + hour +
-                ", minute=" + minute +
+                ", minute=" + min +
                 '}';
     }
 
@@ -53,9 +59,9 @@ public class TimeModel implements Comparable<TimeModel>{
         }
         //小时小的显示在前面，如果小时相同，那么就对分钟进行排序
         //看当前小时是否相等，如果相等，那么就按照小的在前
-        if (this.hour == timeModel.hour){
+        if (Objects.equals(this.hour, timeModel.hour)){
             //当前小时是相等的
-            return Integer.compare(this.minute, timeModel.minute);
+            return Integer.compare(this.min, timeModel.min);
         } else {
             //当前小时不相等
             return Integer.compare(this.hour, timeModel.hour);

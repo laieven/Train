@@ -18,7 +18,7 @@ public class CacheUtil {
     private static CacheUtil mCache;
     private SharedPreferences sharedPreferences;
     public CacheUtil(Context context) {
-        context.getSharedPreferences(MyConstants.CACHE_FILE_NAME, Context.MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences(MyConstants.CACHE_FILE_NAME, Context.MODE_PRIVATE);
     }
 
     //向外暴露接口，能够获得一个实例对象
