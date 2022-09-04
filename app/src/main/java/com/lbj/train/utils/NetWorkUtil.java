@@ -56,13 +56,14 @@ public class NetWorkUtil {
 
 
 
-        if (resList.getCode() != 200){
-            //没有获取到数据
-            return timeModelsRes;
-        }
+        if (resList.getCode() == 200){
+            //此时需要将获得的所有数据添加到结果中
+            timeModelsRes.addAll(resList.getData());
 
-        //此时需要将获得的所有数据添加到结果中
-        timeModelsRes.addAll(resList.getData());
+        }else{
+            //没有获取到数据
+        }
         return timeModelsRes;
+
     }
 }
