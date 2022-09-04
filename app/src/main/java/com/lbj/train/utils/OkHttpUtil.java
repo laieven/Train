@@ -23,7 +23,7 @@ public class OkHttpUtil {
         okHttpClient = builder.build();
     }
 
-    //获取实例
+    //获取OkHttp实例
     public static synchronized OkHttpUtil getInstance(){
         if (okHttpUtil == null){
             okHttpUtil = new OkHttpUtil();
