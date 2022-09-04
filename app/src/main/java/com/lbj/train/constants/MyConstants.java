@@ -11,5 +11,5 @@ public interface MyConstants {
      String RANDOM_TIME_URL = "openapi/lixiangdemo/random/timedatalist/";
      int TIME_FROM_CACHE = 2;
      int TIME_FROM_NET = 3;
-     String CACHE_FILE_NAME = "dataList.cache";
+     String CACHE_FILE_NAME = "Time.cache";
 }

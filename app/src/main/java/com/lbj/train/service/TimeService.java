@@ -64,7 +64,7 @@ public class TimeService extends Service {
             public void run() {
                 //sleep的原因是防止回传数据之后还未bind
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(5000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

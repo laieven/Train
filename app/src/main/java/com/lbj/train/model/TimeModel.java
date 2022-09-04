@@ -54,7 +54,7 @@ public class TimeModel implements Comparable<TimeModel>{
         }
         //小时小的显示在前面，如果小时相同，那么就对分钟进行排序
         //看当前小时是否相等，如果相等，那么就按照小的在前
-        if (Objects.equals(this.hour, timeModel.hour)){
+        if (this.hour == timeModel.hour){
             //当前小时是相等的
             return Integer.compare(this.min, timeModel.min);
         } else {

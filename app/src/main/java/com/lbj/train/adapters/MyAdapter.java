@@ -16,7 +16,7 @@ import com.lbj.train.model.TimeModel;
 import java.util.List;
 
 /**
- * 数据与list做适配
+ * 将数据进行适配
  */
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 

@@ -82,9 +82,9 @@ public class MainActivity extends AppCompatActivity {
         //设置adapter
         List<TimeModel> timeModels = TimeProvider.getInstance().getTimeAll();
         mMyAdapter = new MyAdapter(timeModels);
+        mRecyclerView.setAdapter(mMyAdapter);
         mOnTimeItemClickListener = new OnClickListener();
         mMyAdapter.setOnRecyclerViewItemClickListener(mOnTimeItemClickListener);
-        mRecyclerView.setAdapter(mMyAdapter);
 
 
 
