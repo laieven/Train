@@ -18,6 +18,11 @@ import com.lbj.train.provider.TimeProvider;
  * 显示具体时间的
  */
 public class TimeShowActivity extends Activity {
+    @Override
+    public void setTitle(int titleId) {
+        super.setTitle(titleId);
+
+    }
 
     private ImageView mHourShow;
     private ImageView mMinuteShow;
@@ -45,6 +50,7 @@ public class TimeShowActivity extends Activity {
     }
 
     private void startAnimation(int type, float angle) {
+        //动画类型
         RotateAnimation animation = new RotateAnimation(0, angle, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5F);
 
         //设置差值器

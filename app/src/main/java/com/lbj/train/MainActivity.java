@@ -93,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
         Animation animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.alpha_anim);
         LayoutAnimationController layoutAnimationController = new LayoutAnimationController(animation);
         layoutAnimationController.setOrder(layoutAnimationController.ORDER_NORMAL);
-        layoutAnimationController.setDelay(0.3f);
         mRecyclerView.setLayoutAnimation(layoutAnimationController);
 
         //设置Handler

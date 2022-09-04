@@ -36,9 +36,10 @@ public class TimeProvider {
         return mTimeModelList.get(position);
     }
 
-    public void setTimeModelList(List<TimeModel> timeModels){
+    public void setToList(List<TimeModel> timeModels){
+        //将原数据清除
         mTimeModelList.clear();
-        //对当前传入的数据进行排序
+//        对当前传入的数据进行排序
         TreeSet<TimeModel> treeSet = new TreeSet<>(timeModels);
         mTimeModelList.addAll(treeSet);
     }

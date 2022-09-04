@@ -52,7 +52,7 @@ public class TimeService extends Service {
                 if (timeModels.size() == 0){
                     return;
                 }
-                TimeProvider.getInstance().setTimeModelList(timeModels);
+                TimeProvider.getInstance().setToList(timeModels);
                 //查到了缓存有消息，那么进行发送
                 sendTimeChange(MyConstants.TIME_FROM_CACHE);
             }
@@ -72,7 +72,7 @@ public class TimeService extends Service {
                 if (allTime == null || allTime.size() == 0){
                     return;
                 }
-                TimeProvider.getInstance().setTimeModelList(allTime);
+                TimeProvider.getInstance().setToList(allTime);
                 sendTimeChange(MyConstants.TIME_FROM_NET);
                 //同时将数据进行缓存
                 mCache.write(allTime);
