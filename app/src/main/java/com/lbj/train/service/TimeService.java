@@ -62,6 +62,7 @@ public class TimeService extends Service {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                //sleep的原因是防止回传数据之后还未bind
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
@@ -85,8 +86,8 @@ public class TimeService extends Service {
     //因为主线程没有办法完成耗时任务，只能交给子线程去完成
     private void sendTimeChange(int type){
         Message message = mUiHandler.obtainMessage();
-        message.arg1 = MyConstants.MSG_TIME_CHANGE;
-        message.what = type;//识别子线程发来的是什么消息
+        message.arg1 = type;
+        message.what = MyConstants.MSG_TIME_CHANGE;//识别子线程发来的是什么消息
         mUiHandler.sendMessage(message);//发送消息
     }
 

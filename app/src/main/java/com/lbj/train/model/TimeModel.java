@@ -12,10 +12,14 @@ public class TimeModel implements Comparable<TimeModel>{
     private Integer hour;
     private Integer min;
 
-    public TimeModel(String name, Integer hour, Integer minute) {
+    public TimeModel() {
+
+    }
+
+    public TimeModel(String name, Integer hour, Integer min) {
         this.name = name;
         this.hour = hour;
-        this.min = minute;
+        this.min = min;
     }
 
     public String getName() {
@@ -34,21 +38,12 @@ public class TimeModel implements Comparable<TimeModel>{
         this.hour = hour;
     }
 
-    public Integer getMinute() {
+    public Integer getMin() {
         return min;
     }
 
-    public void setMinute(Integer minute) {
-        this.min = minute;
-    }
-
-    @Override
-    public String toString() {
-        return "TimeModel{" +
-                "name='" + name + '\'' +
-                ", hour=" + hour +
-                ", minute=" + min +
-                '}';
+    public void setMin(Integer min) {
+        this.min = min;
     }
 
     @Override

@@ -24,6 +24,7 @@ import com.lbj.train.adapters.MyAdapter;
 import com.lbj.train.constants.MyConstants;
 import com.lbj.train.interfaces.OnRecyclerViewItemClickListener;
 import com.lbj.train.model.TimeModel;
+import com.lbj.train.provider.TimeProvider;
 import com.lbj.train.service.TimeService;
 
 import java.util.List;
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //设置adapter
-        List<TimeModel> timeModels = null;
+        List<TimeModel> timeModels = TimeProvider.getInstance().getTimeAll();
         mMyAdapter = new MyAdapter(timeModels);
         mOnTimeItemClickListener = new OnClickListener();
         mMyAdapter.setOnRecyclerViewItemClickListener(mOnTimeItemClickListener);
@@ -101,17 +102,21 @@ public class MainActivity extends AppCompatActivity {
             public void handleMessage(@NonNull Message msg) {
                 Log.i(TAG, "handleMessage: ");
                 super.handleMessage(msg);
-                //判断消息的来源
-                if (msg.what == MyConstants.TIME_FROM_CACHE){
-                    //来自缓存的消息
-                    Toast.makeText(MainActivity.this, "收到来自缓存的消息", Toast.LENGTH_SHORT).show();
-                } else if (msg.what == MyConstants.TIME_FROM_NET){
-                    //来自网络的消息
-                    Toast.makeText(MainActivity.this, "收到来自网络消息的消息", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(MainActivity.this, "数据已经更新", Toast.LENGTH_SHORT).show();
+                switch (msg.what){
+                    case MyConstants.MSG_TIME_CHANGE:
+                        switch (msg.arg1){
+                            case MyConstants.TIME_FROM_CACHE:
+                                Toast.makeText(MainActivity.this,"收到缓存数据",Toast.LENGTH_SHORT).show();
+                                break;
+                            case MyConstants.TIME_FROM_NET:
+                                Toast.makeText(MainActivity.this,"收到网络数据",Toast.LENGTH_SHORT).show();
+                                break;
+                            default:
+                                Toast.makeText(MainActivity.this,"数据已经更新",Toast.LENGTH_SHORT).show();
+                        }
+                        mMyAdapter.notifyDataSetChanged();
+                        break;
                 }
-                mMyAdapter.notifyDataSetChanged();
             }
         };
     }
@@ -142,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onItemClick(int position) {
             Intent intent = new Intent(MainActivity.this, TimeShowActivity.class);
-            intent.putExtra("key", position);
+            intent.putExtra("position", position);
             startActivity(intent);
         }
     }

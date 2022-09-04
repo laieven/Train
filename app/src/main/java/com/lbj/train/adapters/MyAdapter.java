@@ -1,5 +1,6 @@
 package com.lbj.train.adapters;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,14 +35,24 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         //取出当前这个model
         TimeModel timeModel = mModelList.get(position);
 
         holder.timeCurrent.setText(timeModel.getName());
-        holder.timeHour.setText(timeModel.getHour());
-        holder.timeMinutes.setText(timeModel.getMinute());
+        //因为回传的hour和min都是Integer类型
+        holder.timeHour.setText(timeModel.getHour().toString());
+        holder.timeMinutes.setText(timeModel.getMin().toString());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOnRecyclerViewItemClickListener != null){
+                    mOnRecyclerViewItemClickListener.onItemClick(position);
+                }
+            }
+        });
     }
 
 

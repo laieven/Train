@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">时间列表</string>
-    <string name="home_title">时间列表</string>
     <string name="detail_title">时间详情</string>
     <string name="empty_message">当前无数据</string>
 
@@ -8,8 +7,4 @@
     <string name="hour_time">小时</string>
     <string name="minutes_time">分钟</string>
 
-
-    <string name="cache_time">缓存时间</string>
-    <string name="network_time">服务器时间</string>
-    <string name="update_time">收到最新数据</string>
 </resources>

@@ -33,14 +33,13 @@ public class TimeShowActivity extends Activity {
         initView();
         getTimeModel();
 
-        //计算时分分别需要走的度数
-        //先计算分针的，每走一步相当于走了6°
-        float minuteCrossAngle = mTimeModel.getMinute() * (360 / 60);
+        //先计算分针，因为分针每个走一步就是6
+        float minuteCrossAngle = mTimeModel.getMin() * (360f / 60);
         startAnimation(MINUTE, minuteCrossAngle);
 
-        //时针，每走一步相当于0.5°
-        float hourCrossAngle = mTimeModel.getHour() * (360 / 12 / 60);
-        hourCrossAngle += minuteCrossAngle;
+        //时针
+        float hourCrossAngle = mTimeModel.getHour() % 12 * (360f / 12);
+        hourCrossAngle += 360 /12 * mTimeModel.getMin() * 1 / 60;
         //开启动画
         startAnimation(HOUR, hourCrossAngle);
     }
@@ -53,6 +52,7 @@ public class TimeShowActivity extends Activity {
 
         //动画持续时间500ms
         animation.setDuration(500);
+        animation.setFillAfter(true);
 
         //选择相应的指针进行转动
         switch (type){
@@ -78,7 +78,6 @@ public class TimeShowActivity extends Activity {
         Intent intent = getIntent();
         int position = intent.getIntExtra("position", 0);
         mTimeModel = TimeProvider.getInstance().getLineData(position);
-        TimeModel timeModel = null;
     }
 
 

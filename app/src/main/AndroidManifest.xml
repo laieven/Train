@@ -27,7 +27,9 @@
         </activity>
 
         <activity android:name=".TimeShowActivity"
-            android:exported="true">
+            android:exported="true"
+            android:label="@string/detail_title"
+            android:parentActivityName="com.lbj.train.MainActivity">
 
         </activity>
 
