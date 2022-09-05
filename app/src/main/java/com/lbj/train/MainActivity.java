@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
 
     //1. 找控件，recyclerView
     //2. 设置adapter
-    //3. 设置相关动画
     private void initView() {
         Log.i(TAG, "initView: ");
         //找控件
@@ -102,8 +101,6 @@ public class MainActivity extends AppCompatActivity {
                             case MyConstants.TIME_FROM_NET:
                                 Toast.makeText(MainActivity.this,"收到网络数据",Toast.LENGTH_SHORT).show();
                                 break;
-                            default:
-                                Toast.makeText(MainActivity.this,"数据已经更新",Toast.LENGTH_SHORT).show();
                         }
                         mMyAdapter.notifyDataSetChanged();
                         break;

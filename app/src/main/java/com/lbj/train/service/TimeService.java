@@ -35,6 +35,7 @@ public class TimeService extends Service {
 
     //分别从缓存和网络中获取数据
     private void getData() {
+        Log.i(TAG, "getData: ");
 
 
         //从缓存中获取
@@ -94,6 +95,7 @@ public class TimeService extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
+        Log.i(TAG, "onBind: ");
         return new InnerBinder();
     }
 

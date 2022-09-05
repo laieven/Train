@@ -39,11 +39,11 @@ public class TimeShowActivity extends AppCompatActivity {
         initView();
         getTimeModel();
 
-        //先计算分针，因为分针每个走一步就是6
+        //先计算分针，因为分针每个走一步就是六度
         float minuteCrossAngle = mTimeModel.getMin() * (360f / 60);
         startAnimation(MINUTE, minuteCrossAngle);
 
-        //时针
+        //时针，不仅要计算时针走了多少，还要加上与分针的夹角
         float hourCrossAngle = mTimeModel.getHour() % 12 * (360f / 12);
         hourCrossAngle += 360 /12 * mTimeModel.getMin() * 1 / 60;
         //开启动画
