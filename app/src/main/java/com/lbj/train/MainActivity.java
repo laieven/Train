@@ -87,14 +87,6 @@ public class MainActivity extends AppCompatActivity {
         mMyAdapter.setOnRecyclerViewItemClickListener(mOnTimeItemClickListener);
 
 
-
-
-        //设置动画
-        Animation animation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.alpha_anim);
-        LayoutAnimationController layoutAnimationController = new LayoutAnimationController(animation);
-        layoutAnimationController.setOrder(layoutAnimationController.ORDER_NORMAL);
-        mRecyclerView.setLayoutAnimation(layoutAnimationController);
-
         //设置Handler
         mUiHandler = new Handler(Looper.myLooper()){
             @Override
