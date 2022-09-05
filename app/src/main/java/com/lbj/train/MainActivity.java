@@ -131,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
         public void onServiceConnected(ComponentName name, IBinder service) {
             Log.i(TAG, "onServiceConnected: ");
             myBinder = (TimeService.InnerBinder) service;
+            //子线程需要sendMessage
             setUiHandler();
         }
 

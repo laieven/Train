@@ -17,8 +17,10 @@ import java.util.List;
 public class CacheUtil {
     private static CacheUtil mCache;
     private SharedPreferences sharedPreferences;
+    private SharedPreferencesUtil mSharedPreferencesUtil;
     public CacheUtil(Context context) {
         sharedPreferences = context.getSharedPreferences(MyConstants.CACHE_FILE_NAME, Context.MODE_PRIVATE);
+        mSharedPreferencesUtil = new SharedPreferencesUtil(context);
     }
 
     //向外暴露接口，能够获得一个实例对象
@@ -30,26 +32,13 @@ public class CacheUtil {
     }
 
     //写入
-    public void write(List<TimeModel> timeModels){
-        if (timeModels == null){
-            return;
-        }
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        String json = new Gson().toJson(timeModels);
-        editor.putString(MyConstants.CACHE_FILE_NAME, json);
-        editor.apply();
+    public void save(List<TimeModel> timeModels){
+        mSharedPreferencesUtil.save(timeModels, mCache.sharedPreferences);
     }
 
     //缓存读取
     public List<TimeModel> read(){
-        String string = sharedPreferences.getString(MyConstants.CACHE_FILE_NAME, null);
-        if (TextUtils.isEmpty(string)){
-            return new ArrayList<>();
-        }
-        Gson gson = new Gson();
-
-//        https://blog.csdn.net/jiangyu1013/article/details/56489412
-        return gson.fromJson(string, new TypeToken<List<TimeModel>>(){}.getType());
+        return mSharedPreferencesUtil.read(mCache.sharedPreferences);
     }
 
 }

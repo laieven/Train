@@ -75,7 +75,7 @@ public class TimeService extends Service {
                 TimeProvider.getInstance().setToList(allTime);
                 sendTimeChange(MyConstants.TIME_FROM_NET);
                 //同时将数据进行缓存
-                mCache.write(allTime);
+                mCache.save(allTime);
             }
         }, "Net").start();
 
@@ -85,7 +85,7 @@ public class TimeService extends Service {
     //看是否改变了消息，不管是缓存还是网络，只要有数据通知过来都要发送消息
     //因为主线程没有办法完成耗时任务，只能交给子线程去完成
     private void sendTimeChange(int type){
-        Message message = mUiHandler.obtainMessage();
+        Message message = new Message();
         message.arg1 = type;
         message.what = MyConstants.MSG_TIME_CHANGE;//识别子线程发来的是什么消息
         mUiHandler.sendMessage(message);//发送消息

@@ -10,6 +10,7 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.lbj.train.model.TimeModel;
 import com.lbj.train.provider.TimeProvider;
@@ -17,7 +18,7 @@ import com.lbj.train.provider.TimeProvider;
 /**
  * 显示具体时间的
  */
-public class TimeShowActivity extends Activity {
+public class TimeShowActivity extends AppCompatActivity {
     @Override
     public void setTitle(int titleId) {
         super.setTitle(titleId);
