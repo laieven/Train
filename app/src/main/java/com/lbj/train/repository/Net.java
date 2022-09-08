@@ -1,9 +1,10 @@
-package com.lbj.train.utils;
+package com.lbj.train.repository;
 
 import com.google.gson.Gson;
 import com.lbj.train.constants.MyConstants;
 import com.lbj.train.model.TimeModel;
 import com.lbj.train.result.TimeRes;
+import com.lbj.train.utils.OkHttpUtil;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -13,26 +14,22 @@ import java.util.List;
 import okhttp3.Response;
 
 //网络
-public class NetWorkUtil {
-    private static NetWorkUtil netWorkUtil;
+public class Net {
+    private static Net mNetWork;
 
-    private String ip;
-    private int port;
-    private String url;
+    private String ip = MyConstants.IP;;
+    private int port = MyConstants.PORT;;
+    private String url = MyConstants.RANDOM_TIME_URL;;
     private String responseStr;
 
-    public NetWorkUtil() {
-        //初始化网络地址、端口号以及url
-        ip = MyConstants.IP;
-        port = MyConstants.PORT;
-        url = MyConstants.RANDOM_TIME_URL;
+    public Net() {
     }
 
-    public synchronized static NetWorkUtil getNet(){
-        if (netWorkUtil == null){
-            netWorkUtil = new NetWorkUtil();
+    public synchronized static Net getNet(){
+        if (mNetWork == null){
+            mNetWork = new Net();
         }
-        return netWorkUtil;
+        return mNetWork;
     }
 
 

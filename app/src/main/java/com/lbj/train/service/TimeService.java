@@ -13,8 +13,8 @@ import androidx.annotation.Nullable;
 import com.lbj.train.constants.MyConstants;
 import com.lbj.train.model.TimeModel;
 import com.lbj.train.provider.TimeProvider;
-import com.lbj.train.utils.CacheUtil;
-import com.lbj.train.utils.NetWorkUtil;
+import com.lbj.train.repository.Cache;
+import com.lbj.train.repository.Net;
 
 import java.util.List;
 
@@ -22,13 +22,13 @@ public class TimeService extends Service {
 
     private static final String TAG = "TimeService";
     private Handler mUiHandler;
-    private CacheUtil mCache;
+    private Cache mCache;
 
     @Override
     public void onCreate() {
         Log.i(TAG, "service onCreate: ");
         super.onCreate();
-        mCache = CacheUtil.getCache(this);
+        mCache = Cache.getCache(this);
         //此时需要先获取一下缓存的
         getData();
     }
@@ -69,7 +69,7 @@ public class TimeService extends Service {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                List<TimeModel> allTime = NetWorkUtil.getNet().getAllTime();
+                List<TimeModel> allTime = Net.getNet().getAllTime();
                 if (allTime == null || allTime.size() == 0){
                     return;
                 }

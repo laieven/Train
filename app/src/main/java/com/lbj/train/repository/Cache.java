@@ -1,32 +1,29 @@
-package com.lbj.train.utils;
+package com.lbj.train.repository;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.text.TextUtils;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.lbj.train.constants.MyConstants;
 import com.lbj.train.model.TimeModel;
+import com.lbj.train.utils.SharedPreferencesUtil;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 //缓存
-public class CacheUtil {
-    private static CacheUtil mCache;
+public class Cache {
+    private static Cache mCache;
     private SharedPreferences sharedPreferences;
     private SharedPreferencesUtil mSharedPreferencesUtil;
-    public CacheUtil(Context context) {
+    public Cache(Context context) {
         sharedPreferences = context.getSharedPreferences(MyConstants.CACHE_FILE_NAME, Context.MODE_PRIVATE);
         mSharedPreferencesUtil = new SharedPreferencesUtil(context);
     }
 
     //向外暴露接口，能够获得一个实例对象
-    public static synchronized CacheUtil getCache(Context context){
+    public static synchronized Cache getCache(Context context){
         if (mCache == null){
-            mCache = new CacheUtil(context);
+            mCache = new Cache(context);
         }
         return mCache;
     }

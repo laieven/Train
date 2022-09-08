@@ -92,20 +92,14 @@ public class MainActivity extends AppCompatActivity {
             public void handleMessage(@NonNull Message msg) {
                 Log.i(TAG, "handleMessage: ");
                 super.handleMessage(msg);
-                switch (msg.what){
-                    case MyConstants.MSG_TIME_CHANGE:
-                        switch (msg.arg1){
-                            case MyConstants.TIME_FROM_CACHE:
-                                Toast.makeText(MainActivity.this,"收到缓存数据",Toast.LENGTH_SHORT).show();
-                                break;
-                            case MyConstants.TIME_FROM_NET:
-                                Toast.makeText(MainActivity.this,"收到网络数据",Toast.LENGTH_SHORT).show();
-                                break;
+                if (msg.what == MyConstants.TIME_FROM_CACHE){
+                        if (msg.arg1 == MyConstants.TIME_FROM_CACHE) {
+                            Toast.makeText(MainActivity.this, "收到缓存数据", Toast.LENGTH_SHORT).show();
+                        }else if (msg.arg1 == MyConstants.TIME_FROM_NET)
+                            Toast.makeText(MainActivity.this,"收到网络数据",Toast.LENGTH_SHORT).show();
                         }
                         mMyAdapter.notifyDataSetChanged();
-                        break;
                 }
-            }
         };
     }
 
